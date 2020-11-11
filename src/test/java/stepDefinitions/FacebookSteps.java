@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -20,14 +19,19 @@ public class FacebookSteps {
 	WebDriver driver;
 
 	// input email và pass 2 row
-	@Given("^Open facebook application$")
-	public void iOpenApplication() {
+	@Before
+	public void OpenApplication() {
 		WebDriverManager.firefoxdriver().setup();
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		driver.get("https://www.facebook.com/");
 
+	}
+
+	@After
+	public void closeApplication() {
+		driver.quit();
 	}
 
 	@When("^Input to username with \"([^\"]*)\"$")
@@ -86,8 +90,4 @@ public class FacebookSteps {
 
 	}
 
-	@When("^Close application$")
-	public void closeApplication() {
-		driver.quit();
-	}
 }
