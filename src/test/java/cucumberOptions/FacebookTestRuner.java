@@ -10,7 +10,7 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(
 		features = "src/test/java/features",
 		
-		glue = "stepDefinitions",
+		glue = "Facebook.stepDefinitions",
 //		dryRun = true,
 		monochrome = true,
 		plugin = {"pretty","html:target/site/cucumber-report-default","json:target/site/cucumber.json"},
@@ -18,6 +18,6 @@ import cucumber.api.junit.Cucumber;
 		tags = {"@parameter, @datable"})
 
 
-public class TestRuner {
+public class FacebookTestRuner {
 
 }

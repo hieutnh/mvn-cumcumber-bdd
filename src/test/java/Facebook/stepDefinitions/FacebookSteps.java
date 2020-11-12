@@ -1,4 +1,4 @@
-package stepDefinitions;
+package Facebook.stepDefinitions;
 
 import java.util.List;
 import java.util.Map;
