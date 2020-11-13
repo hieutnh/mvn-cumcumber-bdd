@@ -1,10 +1,10 @@
 package cucumberOptions;
 
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -38,14 +38,18 @@ public class Hooks {
 					browser = System.getenv("BROWSER");
 					if (browser == null) {
 						// Set default browser
-						browser = "firefox";
+						browser = "chrome";
 					}
 				}
 
 				switch (browser) {
 				case "chrome":
 					WebDriverManager.chromedriver().setup();
-					driver = new ChromeDriver();
+					ChromeOptions options = new ChromeOptions();
+					// dissable infobars chrome
+					options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+					options.setExperimentalOption("useAutomationExtension", false);
+					driver = new ChromeDriver(options);
 					break;
 				case "hchrome":
 					WebDriverManager.chromedriver().setup();
@@ -77,12 +81,12 @@ public class Hooks {
 					driver = new ChromeDriver();
 					break;
 				}
-				// Browser crash/ stop
-			} catch (UnreachableBrowserException e) {
-				driver = new ChromeDriver();
-				// Driver crash
-			} catch (WebDriverException e) {
-				driver = new ChromeDriver();
+//				// Browser crash/ stop
+//			} catch (UnreachableBrowserException e) {
+//				driver = new ChromeDriver();
+//				// Driver crash
+//			} catch (WebDriverException e) {
+//				driver = new ChromeDriver();
 			}
 			// Code này luôn luôn được chạy dù pass hay fail
 			finally {
@@ -91,7 +95,9 @@ public class Hooks {
 
 			driver.get(GlobalConstants.NOPCOMMERCE_URL);
 			driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+			driver.manage().window().maximize();
 			log.info("------------- Started the browser -------------");
+			
 		}
 		return driver;
 	}

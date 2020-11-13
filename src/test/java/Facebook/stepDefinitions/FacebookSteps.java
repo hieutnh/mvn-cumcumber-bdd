@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.After;
+import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 

@@ -1,14 +1,20 @@
 Feature: Register and login
 
   @Register
-  Scenario: Title of your scenario
-    Given Register a account true form
-    When Open home page
-    When Input to firstname
+  Scenario: Register a account
+    Given Get current page Url
+    When Open register page
+    And Input to firstname
     And Input to lastname
     And Input email to textbox
     And Input password to textbox
-    Then Check button login displayed
-    When Click register button
+    And Input Confirm password to textbox
+    And Click register button
+    And Click button logout
+    And Click button login at login page
+    And Input email to textbox at login page
+    And Input pass to textbox at login page
+    And Click button login to home page
+    
     
 

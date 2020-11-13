@@ -3,56 +3,35 @@ package Nopcommerce.stepDefinitions;
 import org.openqa.selenium.WebDriver;
 
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumberOptions.Hooks;
+import pageOjects.PageGeneratorManager;
+import pageOjects.homePageObject;
 
 public class HomePageSteps {
 	WebDriver driver;
-
-	public HomePageSteps(WebDriver driver) {
-		this.driver = driver;
+	String homePageUrl;
+	homePageObject homePage;
+	
+	public HomePageSteps() {
+		this.driver = Hooks.openAndQuitBrowser();
+		homePage = PageGeneratorManager.getHomePage(driver);
 	}
 
-	@Given("^Register a account true form$")
-	public void registerAAccountTrueForm() {
-		
-		
+	
+	@Given("^Get current page Url$")
+	public void getCurrentPageUrl() {
+		homePageUrl = homePage.getCurrentPageUrl();
 	}
-
-	@When("^Input to firstname$")
-	public void inputToFirstname() {
-		
-		
+	
+	@When("^Open register page$")
+	public void openRegisterPage() {
+		homePage.clickToRegisterLink();
 	}
-
-	@When("^Input to lastname$")
-	public void inputToLastname() {
-		
-		
-	}
-
-	@When("^Input email to textbox$")
-	public void inputEmailToTextbox() {
-		
-		
-	}
-
-	@When("^Input password to textbox$")
-	public void inputPasswordToTextbox() {
-		
-		
-	}
-
-	@Then("^Check button login displayed$")
-	public void checkButtonLoginDisplayed() {
-		
-		
-	}
-
-	@When("^Click register button$")
-	public void clickRegisterButton() {
-		
-		
+	
+	@When("^Click button login at login page$")
+	public void clickButtonLoginAtLoginPage() {
+		homePage.clickToLoginLinkHeader();
 	}
 
 }

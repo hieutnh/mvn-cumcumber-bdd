@@ -1,10 +1,5 @@
 package commons;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +15,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import pageOjects.PageGeneratorManager;
+import pageOjects.addressesPageObject;
+import pageOjects.customerInfoPageObject;
+import pageOjects.myProductReviewsPageObject;
+import pageOjects.ordersPageObject;
+import pageOjects.rewardPointsPageObject;
+import pageOjects.stockSubscriptionsObject;
 import pageUIs.AbstractPageUI;
+import pageUIs.CustomerInfoPageUI;
+import pageUIs.RegisterPageUI;
 
 public class AbstractPage {
 
@@ -153,7 +157,7 @@ public class AbstractPage {
 	public void sendkeyToElement(WebDriver driver, String locator, String value, String... values) {
 		element = getElement(driver, getDynamicLocator(locator, values));
 		element.clear();
-		if (driver.toString().toLowerCase().contains("chrome") || driver.toString().toLowerCase().contains("edge")) {
+		if (driver.toString().toLowerCase().contains("chrome") || driver.toString().toLowerCase().contains("edge") || driver.toString().toLowerCase().contains("firefox")) {
 			sleepInMiliSecond(500);
 		}
 		element.sendKeys(value);
@@ -238,6 +242,11 @@ public class AbstractPage {
 
 	public String getElementAttribute(WebDriver driver, String locator, String attributeName) {
 		element = getElement(driver, locator);
+		return element.getAttribute(attributeName);
+	}
+	
+	public String getElementAttribute(WebDriver driver, String locator, String attributeName, String... values) {
+		element = getElement(driver, getDynamicLocator(locator, values));
 		return element.getAttribute(attributeName);
 	}
 
@@ -525,11 +534,6 @@ public class AbstractPage {
 		explicitWait.until(ExpectedConditions.visibilityOfElementLocated(getByXpath(locator)));
 	}
 
-	public void waitToElementsVisible(WebDriver driver, String locator) {
-		explicitWait = new WebDriverWait(driver, GlobalConstants.LONG_TIMEOUT);
-		explicitWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(getByXpath(locator)));
-	}
-
 	public void waitToElementVisible(WebDriver driver, String locator, String... values) {
 		explicitWait = new WebDriverWait(driver, GlobalConstants.LONG_TIMEOUT);
 		explicitWait.until(ExpectedConditions.visibilityOfElementLocated(getByXpath(getDynamicLocator(locator, values))));
@@ -555,112 +559,96 @@ public class AbstractPage {
 		explicitWait.until(ExpectedConditions.elementToBeClickable(getByXpath(getDynamicLocator(locator, values))));
 	}
 
-	public boolean isDataSortedAscending(WebDriver driver, String locator) {
-		ArrayList<String> arrayList = new ArrayList<>();
-		List<WebElement> elementList = getElements(driver, locator);
-		for (WebElement element : elementList) {
-			arrayList.add(element.getText());
-		}
-
-		System.out.println("------------------Data on UI ------------------");
-		for (String name : arrayList) {
-			System.out.println(name);
-		}
-		ArrayList<String> sortedList = new ArrayList<>();
-		for (String child : arrayList) {
-			sortedList.add(child);
-		}
-		Collections.sort(arrayList);
-		System.out.println("------------------Data sorted on code ------------------");
-		for (String name : arrayList) {
-			System.out.println(name);
-		}
-		return sortedList.equals(arrayList);
+	// Các hàm mở page của my account
+	public ordersPageObject clickToOrderLink(WebDriver driver) {
+		waitToElementClickAble(driver, AbstractPageUI.ORDER_LINK);
+		clickToElement(driver, AbstractPageUI.ORDER_LINK);
+		return PageGeneratorManager.getOrderPage(driver);
 	}
 
-	public boolean isPriceSortAscending(WebDriver driver, String locator) {
-		ArrayList<Float> arrayList = new ArrayList<Float>();
-		List<WebElement> elementList = getElements(driver, locator);
-		for (WebElement element : elementList) {
-			arrayList.add(Float.parseFloat(element.getText().replace("$", "").trim()));
+	public customerInfoPageObject clickToCustomerInfoPage(WebDriver driver) {
+		waitToElementClickAble(driver, AbstractPageUI.CUSTOMER_INFO_LINK);
+		clickToElement(driver, AbstractPageUI.CUSTOMER_INFO_LINK);
+		return PageGeneratorManager.getCustomerInfoPage(driver);
+	}
+
+	public myProductReviewsPageObject clickToMyProductPageLink(WebDriver driver) {
+		waitToElementClickAble(driver, AbstractPageUI.My_Product_Review_LINK);
+		clickToElement(driver, AbstractPageUI.My_Product_Review_LINK);
+		return PageGeneratorManager.getMyProductReviewsPage(driver);
+	}
+
+	public addressesPageObject clickToAddressLink(WebDriver driver) {
+		waitToElementClickAble(driver, AbstractPageUI.ADDRESSES_LINK);
+		clickToElement(driver, AbstractPageUI.ADDRESSES_LINK);
+		return PageGeneratorManager.getAddresesPage(driver);
+	}
+
+	public rewardPointsPageObject clickToRewardPoints(WebDriver driver) {
+		waitToElementClickAble(driver, AbstractPageUI.REWARD_POINTS_LINK);
+		clickToElement(driver, AbstractPageUI.REWARD_POINTS_LINK);
+		return PageGeneratorManager.getRewardPointsPage(driver);
+	}
+
+	public stockSubscriptionsObject clickToStockSubcriptions(WebDriver driver) {
+		waitToElementClickAble(driver, AbstractPageUI.STOCK_SUBCRIPTIONS);
+		clickToElement(driver, AbstractPageUI.STOCK_SUBCRIPTIONS);
+		return PageGeneratorManager.getStockSubscriptionsPage(driver);
+	}
+
+	// Rest Parameter hàm dùng 1 locator để mở các link chỉ nên dùng < 15 page (cách 1)
+	public AbstractPage clickToAllLinkMyAccount1(WebDriver driver, String linkName) {
+		waitToElementClickAble(driver, AbstractPageUI.DYNAMIC_LINK_LIST_MY_ACCOUNT, linkName);
+		clickToElement(driver, AbstractPageUI.DYNAMIC_LINK_LIST_MY_ACCOUNT, linkName);
+		switch (linkName) {
+		case "Addresses":
+			return PageGeneratorManager.getAddresesPage(driver);
+		case "Customer info":
+			return PageGeneratorManager.getCustomerInfoPage(driver);
+		case "Orders":
+			return PageGeneratorManager.getOrderPage(driver);
+		case "My product reviews":
+			return PageGeneratorManager.getMyProductReviewsPage(driver);
+		case "Reward points":
+			return PageGeneratorManager.getRewardPointsPage(driver);
+		default:
+			return PageGeneratorManager.getStockSubscriptionsPage(driver);
+
 		}
-		
-		System.out.println("------------------Data on UI ------------------");
-		for (Float name : arrayList) {
-			System.out.println(name);
-		}
-		ArrayList<Float> sortedList = new ArrayList<>();
-		for (Float child : arrayList) {
-			sortedList.add(child);
-		}
-		Collections.sort(arrayList);
-		System.out.println("------------------Data sorted on code ------------------");
-		for (Float name : arrayList) {
-			System.out.println(name);
-		}
-		return sortedList.equals(arrayList);
+	}
+
+	// Rest Parameter hàm dùng 1 locator để mở các link ko giới hạn bao nhiêu page (cách 2)
+	public void clickToAllLinkMyAccount2(WebDriver driver, String linkName) {
+		waitToElementClickAble(driver, AbstractPageUI.DYNAMIC_LINK_LIST_MY_ACCOUNT, linkName);
+		clickToElement(driver, AbstractPageUI.DYNAMIC_LINK_LIST_MY_ACCOUNT, linkName);
 	}
 	
-	public boolean isDateSortAscending(WebDriver driver, String locator) throws ParseException {
-		ArrayList<Date> arrayList = new ArrayList<Date>();
-		List<WebElement> elementList = getElements(driver, locator);
-		for (WebElement element : elementList) {
-			SimpleDateFormat date = new SimpleDateFormat("dd/mm/yyyy");
-			arrayList.add(date.parse(element.getText()));
-		}
-
-		System.out.println("------------------Data on UI ------------------");
-		for (Date name : arrayList) {
-			System.out.println(name);
-		}
-		ArrayList<Date> sortedList = new ArrayList<>();
-		for (Date child : arrayList) {
-			sortedList.add(child);
-		}
-		Collections.sort(arrayList);
-		System.out.println("------------------Data sorted on code ------------------");
-		for (Date name : arrayList) {
-			System.out.println(name);
-		}
-		return sortedList.equals(arrayList);
+	public String getTextErrorMessageByID(WebDriver driver, String values) {
+		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_ERROR_MESSAGE_TEXT, values);
+		return getElementText(driver, AbstractPageUI.DYNAMIC_ERROR_MESSAGE_TEXT, values);
 	}
 
-	public boolean isDataSortedDescending(WebDriver driver, String locator) {
-		ArrayList<String> arrayList = new ArrayList<>();
-		List<WebElement> elementList = getElements(driver, locator);
-		for (WebElement element : elementList) {
-			arrayList.add(element.getText());
-		}
-		System.out.println("------------------Data on UI ------------------");
-		for (String name : arrayList) {
-			System.out.println(name);
-		}
-		ArrayList<String> sortedList = new ArrayList<>();
-		for (String child : arrayList) {
-			sortedList.add(child);
-		}
-		Collections.sort(arrayList);
-		System.out.println("------------------Data sorted ASC on code ------------------");
-		for (String name : arrayList) {
-			System.out.println(name);
-		}
-
-		Collections.reverse(arrayList);
-		System.out.println("------------------Data sorted DESC on code ------------------");
-		for (String name : arrayList) {
-			System.out.println(name);
-		}
-
-		return sortedList.equals(arrayList);
-
+	public void clickButtonByValue(WebDriver driver, String values) {
+		waitToElementClickAble(driver, AbstractPageUI.DYNAMIC_BUTTON_BY_VALUE, values);
+		clickToElement(driver, AbstractPageUI.DYNAMIC_BUTTON_BY_VALUE, values);
+	}
+	
+	public void InputTextBoxByID(WebDriver driver, String locatorname, String values) {
+		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_CUSTOMERINFO_TEXTBOX, values);
+		sendkeyToElement(driver, AbstractPageUI.DYNAMIC_CUSTOMERINFO_TEXTBOX, locatorname, values);
 	}
 
-	// Witch page myDashBoard13
-	public void clickToAllLinkMyDashBoard13(WebDriver driver, String listvalues) {
-		waitToElementClickAble(driver, AbstractPageUI.DYNAMIC_MY_ACCOUNT_LINK, listvalues);
-		clickToElement(driver, AbstractPageUI.DYNAMIC_MY_ACCOUNT_LINK, listvalues);
+	public String getTextCompanyTextBox(WebDriver driver, String attributeName, String values) {
+		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_CUSTOMERINFO_TEXTBOX, values);
+		return getElementAttribute(driver, AbstractPageUI.DYNAMIC_CUSTOMERINFO_TEXTBOX, attributeName, values);
 	}
-
+	
+	public void clickLinkHeader(WebDriver driver, String values) {
+		waitToElementClickAble(driver, AbstractPageUI.DYNAMIC_LIST_LINK_HEADER, values);
+		clickToElement(driver, AbstractPageUI.DYNAMIC_LIST_LINK_HEADER, values);
+		
+	}
+	
 	private WebDriverWait explicitWait;
 	private JavascriptExecutor jsExecutor;
 	private WebElement element;
@@ -668,5 +656,4 @@ public class AbstractPage {
 	private List<WebElement> elements;
 	private Select select;
 	private String osName = System.getProperty("os.name");
-
 }

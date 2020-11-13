@@ -2,57 +2,33 @@ package Nopcommerce.stepDefinitions;
 
 import org.openqa.selenium.WebDriver;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumberOptions.Hooks;
+import pageOjects.PageGeneratorManager;
+import pageOjects.loginPageObject;
 
 public class LoginPageSteps {
 	WebDriver driver;
+	loginPageObject loginPage;
 
-	public LoginPageSteps(WebDriver driver) {
-		this.driver = driver;
+	public LoginPageSteps() {
+		this.driver = Hooks.openAndQuitBrowser();
+		loginPage = PageGeneratorManager.getLoginPage(driver);
 	}
 
-	@Given("^Register a account true form$")
-	public void registerAAccountTrueForm() {
-		
-		
+
+	@When("^Input email to textbox at login page$")
+	public void inputEmailToTextboxAtLoginPage() {
+		loginPage.inputToEmailTextBox(RegisterPageSteps.email);
 	}
 
-	@When("^Input to firstname$")
-	public void inputToFirstname() {
-		
-		
+	@When("^Input pass to textbox at login page$")
+	public void inputPassToTextboxAtLoginPage() {
+		loginPage.inputToPasswordTextBox(RegisterPageSteps.pass);
 	}
 
-	@When("^Input to lastname$")
-	public void inputToLastname() {
-		
-		
+	@When("^Click button login to home page$")
+	public void clickButtonLoginToHomePage() {
+		loginPage.clicktoLoginButton();
 	}
-
-	@When("^Input email to textbox$")
-	public void inputEmailToTextbox() {
-		
-		
-	}
-
-	@When("^Input password to textbox$")
-	public void inputPasswordToTextbox() {
-		
-		
-	}
-
-	@Then("^Check button login displayed$")
-	public void checkButtonLoginDisplayed() {
-		
-		
-	}
-
-	@When("^Click register button$")
-	public void clickRegisterButton() {
-		
-		
-	}
-
 }
