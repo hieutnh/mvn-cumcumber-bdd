@@ -23,8 +23,6 @@ import pageOjects.ordersPageObject;
 import pageOjects.rewardPointsPageObject;
 import pageOjects.stockSubscriptionsObject;
 import pageUIs.AbstractPageUI;
-import pageUIs.CustomerInfoPageUI;
-import pageUIs.RegisterPageUI;
 
 public class AbstractPage {
 
@@ -148,9 +146,9 @@ public class AbstractPage {
 	public void sendkeyToElement(WebDriver driver, String locator, String value) {
 		element = getElement(driver, locator);
 		element.clear();
-		if (driver.toString().toLowerCase().contains("chrome") || driver.toString().toLowerCase().contains("edge")) {
-			sleepInMiliSecond(500);
-		}
+//		if (driver.toString().toLowerCase().contains("chrome") || driver.toString().toLowerCase().contains("edge")) {
+//			sleepInMiliSecond(500);
+//		}
 		element.sendKeys(value);
 	}
 

@@ -42,7 +42,7 @@ public class RegisterPageSteps {
 	public void inputPasswordToTextbox() {
 		registerPage.inputPassToTextBox(pass);
 	}
-	
+
 	@When("^Input Confirm password to textbox$")
 	public void inputConfirmPasswordToTextbox() {
 		registerPage.inputConfirmPassToTextBox(pass);
@@ -55,6 +55,16 @@ public class RegisterPageSteps {
 
 	@When("^Click button logout$")
 	public void clickButtonLogout() {
+		registerPage.clickToLogOutButton();
+	}
+
+	@When("^Click register button dynamic$")
+	public void clickRegisterButtonDynamic() {
+		registerPage.clickRegisterButton();
+	}
+
+	@When("^Click button logout dynamic$")
+	public void clickButtonLogoutDynamic() {
 		registerPage.clickToLogOutButton();
 	}
 

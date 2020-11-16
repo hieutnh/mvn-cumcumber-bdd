@@ -39,13 +39,17 @@ public class PageGeneratorManager {
 	public static stockSubscriptionsObject getStockSubscriptionsPage(WebDriver driver) {
 		return new stockSubscriptionsObject(driver);
 	}
-	
+
 	public static changePasswordPageObject getchangePasswordPage(WebDriver driver) {
 		return new changePasswordPageObject(driver);
 	}
-	
+
 	public static searchFooterPageObject getsearchFooterPage(WebDriver driver) {
 		return new searchFooterPageObject(driver);
+	}
+
+	public static commontPageObject getCommonPageObject(WebDriver driver) {
+		return new commontPageObject(driver);
 	}
 
 }

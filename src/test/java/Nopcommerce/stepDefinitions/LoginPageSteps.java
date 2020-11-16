@@ -16,19 +16,8 @@ public class LoginPageSteps {
 		loginPage = PageGeneratorManager.getLoginPage(driver);
 	}
 
-
-	@When("^Input email to textbox at login page$")
-	public void inputEmailToTextboxAtLoginPage() {
-		loginPage.inputToEmailTextBox(RegisterPageSteps.email);
-	}
-
-	@When("^Input pass to textbox at login page$")
-	public void inputPassToTextboxAtLoginPage() {
-		loginPage.inputToPasswordTextBox(RegisterPageSteps.pass);
-	}
-
-	@When("^Click button login to home page$")
-	public void clickButtonLoginToHomePage() {
+	@When("^Click button login to home page dynamic$")
+	public void clickButtonLoginToHomePageDynamic() {
 		loginPage.clicktoLoginButton();
 	}
 }

@@ -12,25 +12,24 @@ public class HomePageSteps {
 	WebDriver driver;
 	String homePageUrl;
 	homePageObject homePage;
-	
+
 	public HomePageSteps() {
 		this.driver = Hooks.openAndQuitBrowser();
 		homePage = PageGeneratorManager.getHomePage(driver);
 	}
 
-	
-	@Given("^Get current page Url$")
-	public void getCurrentPageUrl() {
+	@Given("^Get current page Url dynamic$")
+	public void getCurrentPageUrlDynamic() {
 		homePageUrl = homePage.getCurrentPageUrl();
 	}
-	
-	@When("^Open register page$")
-	public void openRegisterPage() {
+
+	@When("^Open register page dynamic$")
+	public void openRegisterPageDynamic() {
 		homePage.clickToRegisterLink();
 	}
-	
-	@When("^Click button login at login page$")
-	public void clickButtonLoginAtLoginPage() {
+
+	@When("^Click button login at login page dynamic$")
+	public void clickButtonLoginAtLoginPageDynamic() {
 		homePage.clickToLoginLinkHeader();
 	}
 
