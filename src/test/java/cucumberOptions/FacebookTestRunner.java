@@ -6,18 +6,18 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;
 import cucumber.api.junit.Cucumber;
 
+
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = "src/test/java/Nopcommerce/features",
-		
-		glue = "Nopcommerce.stepDefinitions",
+		features = "src/test/java/Facebook/features",
+		glue = "Facebook.stepDefinitions",
 //		dryRun = true,
 		monochrome = true,
 		plugin = {"pretty","html:target/site/cucumber-report-default","json:target/site/cucumber.json"},
 		snippets = SnippetType.CAMELCASE,
-		tags = {"@Register_Dynamic"})
+		tags = {"@have_param"})
 
 
-public class NopcommerceTestRuner {
+public class FacebookTestRunner {
 
 }
