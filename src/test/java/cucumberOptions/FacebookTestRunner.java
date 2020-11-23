@@ -13,7 +13,7 @@ import cucumber.api.junit.Cucumber;
 		glue = "Facebook.stepDefinitions",
 //		dryRun = true,
 		monochrome = true,
-		plugin = {"pretty","html:target/site/cucumber-report-default","json:target/site/cucumber.json"},
+		plugin = {"pretty","html:target/site/cucumber-report-default","json:target/site/cucumber_Facebook.json"},
 		snippets = SnippetType.CAMELCASE,
 		tags = {"@have_param"})
 
